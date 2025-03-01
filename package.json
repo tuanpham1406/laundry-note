@@ -8,8 +8,7 @@
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare",
-    "start": "nuxt preview",
-    "deploy": "nuxt generate && master --dotfiles -d .output/public"
+    "start": "nuxt preview"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.9",
