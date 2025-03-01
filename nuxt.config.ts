@@ -2,6 +2,9 @@
 import tailwindcss from "@tailwindcss/vite";
 
 export default defineNuxtConfig({
+  app: {
+    baseURL: '/laundry-note/'
+  },
   vite: {
     plugins: [
       tailwindcss(),
