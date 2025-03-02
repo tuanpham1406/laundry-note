@@ -20,7 +20,7 @@ export default defineEventHandler(async (event) => {
       // Thêm bản ghi mới với số lượng mặc định là 0
       const { data, error } = await supabase
         .from("laundry")
-        .insert([{ name: body.name, quantity: 0 }])
+        .insert([{ id: Date.now(), name: body.name, quantity: 0 }])
         .single();
       if (error) throw error;
       return data;
