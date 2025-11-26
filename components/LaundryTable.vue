@@ -72,11 +72,11 @@ onMounted(() => {
   fetchLaundryItems();
 });
 
-const onQuantityChange = async (item) => {
-  storage.updateItem((item) => item.id === item.id, {
-    id: item.id,
-    name: item.name,
-    quantity: item.quantity,
+const onQuantityChange = async (entity) => {
+  storage.updateItem((item) => item.id === entity.id, {
+    id: entity.id,
+    name: entity.name,
+    quantity: entity.quantity,
   });
 };
 
