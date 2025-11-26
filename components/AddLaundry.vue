@@ -2,7 +2,7 @@
   <div class="p-4">
     <el-form ref="formRef" :model="form" @submit.prevent="addItem">
       <el-form-item>
-        <el-input v-model="form.name" placeholder="Nhập tên đồ giặt" size="large" />
+        <el-input v-model="form.name" placeholder="Nhập Tên" size="large" />
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="addItem">Thêm</el-button>

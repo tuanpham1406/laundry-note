@@ -12,7 +12,7 @@
       class="responsive-table"
       @sort-change="handleSortChange"
     >
-      <el-table-column prop="name" label="Đồ giặt" />
+      <el-table-column prop="name" label="Đồ" />
       <el-table-column prop="quantity" label="Số lượng" sortable>
         <template #default="scope">
           <el-input-number
