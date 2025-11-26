@@ -1,6 +1,6 @@
 <template>
   <div class="p-4">
-    <el-form ref="formRef" :model="form">
+    <el-form ref="formRef" :model="form" @submit.prevent="addItem">
       <el-form-item>
         <el-input v-model="form.name" placeholder="Nhập tên đồ giặt" size="large" />
       </el-form-item>
@@ -13,19 +13,22 @@
 
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
+import { useLocalStorage } from "~/utils/localStorage";
+
+const emit = defineEmits(["item-added"]);
 
 const form = ref({
   name: "",
 });
-
 const formRef = ref(null);
+const storage = useLocalStorage("items");
 
 const addItem = async () => {
   if (form.value.name.trim() === "") return;
-  await axios.post("/api/laundry", { name: form.value.name });
+  const now = new Date().getTime();
+  storage.addItem({ id: now, name: form.value.name, quantity: 1 });
   form.value.name = "";
-  window.dispatchEvent(new Event("laundry-updated"));
+  emit("item-added");
 };
 </script>
 

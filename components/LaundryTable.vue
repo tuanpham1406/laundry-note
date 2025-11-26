@@ -1,8 +1,8 @@
 <template>
   <div class="p-4">
     <div>
-        <el-checkbox v-model="isDisabledSL">Khóa SL</el-checkbox>
-        <el-checkbox v-model="isDisabledDelete">Khóa xóa</el-checkbox>
+      <el-checkbox v-model="isDisabledSL">Khóa SL</el-checkbox>
+      <el-checkbox v-model="isDisabledDelete">Khóa xóa</el-checkbox>
     </div>
     <el-table
       :data="laundryItems"
@@ -43,17 +43,17 @@
 
 <script setup>
 import { ref, onMounted } from "vue";
-import axios from "axios";
+import { useLocalStorage } from "~/utils/localStorage";
 
+const storage = useLocalStorage("items");
 const tableRef = ref(null);
 const laundryItems = ref([]);
 const isDisabledSL = ref(false);
-const isDisabledDelete = ref(true);
-const defaultSort = ref({ prop: "quantity", order: "descending" });
+const isDisabledDelete = ref(false);
+const defaultSort = ref({ prop: "", order: "" });
 
 const fetchLaundryItems = async () => {
-  const { data } = await axios.get("/api/laundry");
-  laundryItems.value = data;
+  laundryItems.value = storage.getArray();
 };
 
 onMounted(() => {
@@ -70,21 +70,28 @@ onMounted(() => {
     }
   }
   fetchLaundryItems();
-  window.addEventListener("laundry-updated", fetchLaundryItems);
 });
 
 const onQuantityChange = async (item) => {
-  await axios.put("/api/laundry", { id: item.id, quantity: item.quantity });
+  storage.updateItem((item) => item.id === item.id, {
+    id: item.id,
+    name: item.name,
+    quantity: item.quantity,
+  });
 };
 
 const deleteItem = async (id) => {
-  await axios.delete("/api/laundry", { params: { id } });
+  storage.removeItem((item) => item.id === id);
   fetchLaundryItems();
 };
 
 const handleSortChange = (sort) => {
   localStorage.setItem("laundrySort", JSON.stringify(sort));
 };
+
+defineExpose({
+  refresh: fetchLaundryItems,
+});
 </script>
 
 <style scoped>
